@@ -66,21 +66,25 @@ type LogSettings struct {
 }
 
 type FileSettings struct {
-	DriverName              string
-	Directory               string
-	EnablePublicLink        bool
-	PublicLinkSalt          string
-	ThumbnailWidth          int
-	ThumbnailHeight         int
-	PreviewWidth            int
-	PreviewHeight           int
-	ProfileWidth            int
-	ProfileHeight           int
-	InitialFont             string
-	AmazonS3AccessKeyId     string
-	AmazonS3SecretAccessKey string
-	AmazonS3Bucket          string
-	AmazonS3Region          string
+	DriverName                 string
+	Directory                  string
+	EnablePublicLink           bool
+	PublicLinkSalt             string
+	ThumbnailWidth             int
+	ThumbnailHeight            int
+	PreviewWidth               int
+	PreviewHeight              int
+	ProfileWidth               int
+	ProfileHeight              int
+	InitialFont                string
+	AmazonS3AccessKeyId        string
+	AmazonS3SecretAccessKey    string
+	AmazonS3Bucket             string
+	AmazonS3Region             string
+	AmazonS3Endpoint           string
+	AmazonS3BucketEndpoint     string
+	AmazonS3LocationConstraint *bool
+	AmazonS3LowercaseBucket    *bool
 }
 
 type EmailSettings struct {
@@ -164,6 +168,16 @@ func ConfigFromJson(data io.Reader) *Config {
 }
 
 func (o *Config) SetDefaults() {
+	if o.FileSettings.AmazonS3LocationConstraint == nil {
+		o.FileSettings.AmazonS3LocationConstraint = new(bool)
+		*o.FileSettings.AmazonS3LocationConstraint = false
+	}
+
+	if o.FileSettings.AmazonS3LowercaseBucket == nil {
+		o.FileSettings.AmazonS3LowercaseBucket = new(bool)
+		*o.FileSettings.AmazonS3LowercaseBucket = false
+	}
+
 	if o.ServiceSettings.EnableSecurityFixAlert == nil {
 		o.ServiceSettings.EnableSecurityFixAlert = new(bool)
 		*o.ServiceSettings.EnableSecurityFixAlert = true
